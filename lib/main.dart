@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'src/catalog.dart';
+import 'src/item_tile.dart';
 
 void main() {
   runApp(MyApp());
 }
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<Catalog>(
+      create: (context) => Catalog(),
+      child: const MaterialApp(
+        title: 'MPR delta',
+        home: MyHomePage(),
+      ),
+    );
+  }
+}
+/*
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -26,9 +44,10 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
+*/
+/*
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -46,6 +65,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  /*
   int _counter = 0;
 
   void _incrementCounter() {
@@ -58,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -73,24 +94,22 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Selector<Catalog, int?>(
+        selector: (context, catalog) => catalog.itemCount,
+        builder: (context, itemCount, child) => ListView.builder(
+          itemCount: itemCount,
+          padding: const EdgeInsets.symmetric(vertical: 18),
+          itemBuilder: (context, index) {
+            var catalog = Provider.of<Catalog>(context);
+            var item = catalog.getByIndex(index);
+            if (item.isLoading) {
+              return const LoadingItemTile();
+            }
+            return ItemTile(item: item);
+          },
+        ),
+        /*
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -102,12 +121,46 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
+        */
       ),
+      /*
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+      */ // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+*/
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('MPR delta'),
+      ),
+      body: Selector<Catalog, int?>(
+        selector: (context, catalog) => catalog.itemCount,
+        builder: (context, itemCount, child) => ListView.builder(
+          itemCount: itemCount,
+          padding: const EdgeInsets.symmetric(vertical: 18),
+
+          itemBuilder: (context, index) {
+            var catalog = Provider.of<Catalog>(context);
+            var item = catalog.getByIndex(index);
+            
+            if (item.isLoading) 
+              return const LoadingItemTile();
+            
+            return ItemTile(item: item);
+          },
+        ),
+      ),
     );
   }
 }
