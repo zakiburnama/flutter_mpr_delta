@@ -19,12 +19,7 @@ class DetailPage extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-        title: const Text('Infinite List Sample'),
-    );
-  }
-  
-  AppBar buildBody(BuildContext context) {
-    return AppBar(
+        title: const Text('MPR - Delta'),
     );
   }
 

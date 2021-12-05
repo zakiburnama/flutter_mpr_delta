@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<Catalog>(
       create: (context) => Catalog(),
       child: const MaterialApp(
-        title: 'Infinite List Sample',
+        title: 'MPR - Delta',
         home: MyHomePage(),
       ),
     );
@@ -34,7 +34,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Infinite List Sample'),
+        title: const Text('MPR - Delta'),
       ),
       body: Selector<Catalog, int?>(
         // Selector is a widget from package:provider. It allows us to listen
