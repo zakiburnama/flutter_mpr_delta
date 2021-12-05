@@ -1,125 +1,9 @@
 import 'package:flutter/material.dart';
-//import 'package:provider/provider.dart';
-
-//import 'src/catalog.dart';
-//import 'src/item_tile.dart';
-import 'entities/note.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:async';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter MPR Delta',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  List<Note> _note = List<Note>();
-
-  Future<List<Note>> fetchNotes() async{
-    var url = 'https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json';
-    var response = await http.get(url);
-
-    var notes = List<Note>();
-
-    if (response.statusCode == 200) {
-      var notesJson = json.decode(response.body);
-      for (var noteJson in notesJson){
-        notes.add(Note.fromJson(noteJson));
-      }
-    }
-    return notes;
-  }
-
-   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Flutter MPR delta'),
-      ),
-      body: ListView.builder(
-        itemBuilder: (context, index){
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('data123'),
-                  Text('data'),
-                ],
-              ),
-            ),
-          );
-        },
-        itemCount: 10,
-      ),
-    );
-  }
-
-}
-
-
-//
-/*
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Catalog>(
-      create: (context) => Catalog(),
-      child: const MaterialApp(
-        title: 'MPR delta',
-        home: MyHomePage(),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('MPR delta'),
-      ),
-      body: ListView.builder(
-        itemBuilder: (context, index){
-
-        },
-      ),
-    );
-  }
-}
-*/
-
-//
-/*
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -140,7 +24,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String data;
+  late String data;
   var superheros_length;
   @override
   void initState() {
@@ -148,22 +32,27 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     getData();
   }
+
   void getData() async {
-    http.Response response =
-        await http.get("https://protocoderspoint.com/jsondata/superheros.json");
+    var url = "https://protocoderspoint.com/jsondata/superheros.json";
+    http.Response response = await http.get(Uri.parse(url));
+
     if (response.statusCode == 200) {
       data = response.body; //store response as string
+
       setState(() {
-        superheros_length = jsonDecode(
-            data)['superheros']; //get all the data from json string superheros
+        superheros_length = jsonDecode(data)['superheros']; //get all the data from json string superheros
         print(superheros_length.length); // just printed length of data
       });
+
       var venam = jsonDecode(data)['superheros'][4]['url'];
+
       print(venam);
     } else {
       print(response.statusCode);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,89 +80,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-*/
-
-
-/*
-class Produk extends StatefulWidget {
-  @override
-  _ProdukState createState() => new _ProdukState();
-}
-
-class _ProdukState extends State<Produk> {
-  final String sUrl = "https://mysimrs.com/api/";
-  List<ProdukModel> listproduk;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<List<ProdukModel>> _fetchData() async {
-    var params = "produk.php";
-    try {
-      var jsonResponse = await http.get(sUrl + params);
-      if (jsonResponse.statusCode == 200) {
-        final jsonItems =
-            json.decode(jsonResponse.body).cast<Map<String, dynamic>>();
-
-        listproduk = jsonItems.map<ProdukModel>((json) {
-          return ProdukModel.fromJson(json);
-        }).toList();
-      }
-    } catch (e) {}
-    return listproduk;
-  }
-
-  Future<Null> _refresh() {
-    return _fetchData().then((_listproduk) {
-      setState(() => listproduk = _listproduk);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Colors.orange,
-        title: Text(' Data Produk'),
-      ),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: FutureBuilder<List<ProdukModel>>(
-          future: _fetchData(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData)
-              return Center(child: CircularProgressIndicator());
-            return Container(
-              margin: EdgeInsets.only(bottom: 0.0),
-              child: ListView(
-                padding: EdgeInsets.only(bottom: 160.0),
-                children: snapshot.data
-                    .map(
-                      (_data) => Column(children: <Widget>[
-                        Card(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ListTile(
-                                leading: Icon(Icons.perm_media, size: 50),
-                                title: Text(_data.nama),
-                                subtitle:
-                                    Text(_data.harga + ' / ' + _data.satuan),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-                    )
-                    .toList(),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-*/
