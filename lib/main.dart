@@ -1,81 +1,69 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+// Copyright 2020 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
-void main() => runApp(MyApp());
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'src/catalog.dart';
+import 'src/item_tile.dart';
+
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider<Catalog>(
+      create: (context) => Catalog(),
+      child: const MaterialApp(
+        title: 'Infinite List Sample',
+        home: MyHomePage(),
       ),
-      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  late String data;
-  var superheros_length;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getData();
-  }
-
-  void getData() async {
-    var url = "https://protocoderspoint.com/jsondata/superheros.json";
-    http.Response response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      data = response.body; //store response as string
-
-      setState(() {
-        superheros_length = jsonDecode(data)['superheros']; //get all the data from json string superheros
-        print(superheros_length.length); // just printed length of data
-      });
-
-      var venam = jsonDecode(data)['superheros'][4]['url'];
-
-      print(venam);
-    } else {
-      print(response.statusCode);
-    }
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Flutter Http Example"),
+        title: const Text('Infinite List Sample'),
       ),
-      body: ListView.builder(
-        itemCount: superheros_length == null ? 0 : superheros_length.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            child: ListTile(
-              leading: Image.network(
-                jsonDecode(data)['superheros'][index]['url'],
-                fit: BoxFit.fill,
-                width: 100,
-                height: 500,
-                alignment: Alignment.center,
-              ),
-              title: Text(jsonDecode(data)['superheros'][index]['name']),
-              subtitle: Text(jsonDecode(data)['superheros'][index]['power']),
-            ),
-          );
-        },
+      body: Selector<Catalog, int?>(
+        // Selector is a widget from package:provider. It allows us to listen
+        // to only one aspect of a provided value. In this case, we are only
+        // listening to the catalog's `itemCount`, because that's all we need
+        // at this level.
+        selector: (context, catalog) => catalog.itemCount,
+        builder: (context, itemCount, child) => ListView.builder(
+          // When `itemCount` is null, `ListView` assumes an infinite list.
+          // Once we provide a value, it will stop the scrolling beyond
+          // the last element.
+          itemCount: itemCount,
+          padding: const EdgeInsets.symmetric(vertical: 18),
+          itemBuilder: (context, index) {
+            // Every item of the `ListView` is individually listening
+            // to the catalog.
+            var catalog = Provider.of<Catalog>(context);
+
+            // Catalog provides a single synchronous method for getting
+            // the current data.
+            var item = catalog.getByIndex(index);
+
+            if (item.isLoading) {
+              return const LoadingItemTile();
+            }
+
+            return ItemTile(item: item);
+          },
+        ),
       ),
     );
   }
