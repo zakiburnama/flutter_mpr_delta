@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 
 //import 'src/catalog.dart';
 //import 'src/item_tile.dart';
+import 'entities/note.dart';
 
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-//import './model.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,10 +35,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future fetchNotes() async{
-    var url = 'https://raw.githubusercontent.com/boriszv/json/master/random_example.json';
+
+  List<Note> _note = List<Note>();
+
+  Future<List<Note>> fetchNotes() async{
+    var url = 'https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json';
     var response = await http.get(url);
-    //if 
+
+    var notes = List<Note>();
+
+    if (response.statusCode == 200) {
+      var notesJson = json.decode(response.body);
+      for (var noteJson in notesJson){
+        notes.add(Note.fromJson(noteJson));
+      }
+    }
+    return notes;
   }
 
    @override
@@ -54,15 +65,16 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('data'),
+                  Text('data123'),
                   Text('data'),
                 ],
               ),
             ),
           );
         },
-        itemCount: 50,
+        itemCount: 10,
       ),
     );
   }
