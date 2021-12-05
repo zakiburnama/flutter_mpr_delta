@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future fetchNotes() async{
     var url = 'https://raw.githubusercontent.com/boriszv/json/master/random_example.json';
     var response = await http.get(url);
-    if 
+    //if 
   }
 
    @override
