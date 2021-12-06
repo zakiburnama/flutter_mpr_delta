@@ -10,7 +10,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(item.rgb[0], item.rgb[1], item.rgb[2], 1),
+      //backgroundColor: Color.fromRGBO(item.rgb[0], item.rgb[1], item.rgb[2], 1),
       appBar: buildAppBar(context),
       body: Body(item: item),
 
@@ -19,7 +19,16 @@ class DetailPage extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-        title: const Text('MPR - Delta'),
+        title: const Text(
+          'MPR - Delta',
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+        backgroundColor: Colors.green,
+      elevation: 2,
     );
   }
 

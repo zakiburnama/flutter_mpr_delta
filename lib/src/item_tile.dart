@@ -63,7 +63,7 @@ class LoadingItemTile extends StatelessWidget {
               color: Colors.black.withOpacity(0.8),
               fontSize: 22,
               fontWeight: FontWeight.bold
-          ),
+            ),
         ),
       ),
     );

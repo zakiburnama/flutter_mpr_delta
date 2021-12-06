@@ -14,19 +14,74 @@ class Body extends StatelessWidget {
     
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: ListTile(
+      child: Column(
+        children: <Widget>[
+          AspectRatio(
+            aspectRatio: 3,
+            child: Container(
+              color: Color.fromRGBO(item.rgb[0], item.rgb[1], item.rgb[2], 1),
+            ),
+          ),
+          Text(
+            item.name,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 24,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+          Text(
+            item.hex,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+              //fontWeight: FontWeight.bold
+            ),
+          ),
+          Text(
+            item.rgb[0].toString(),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+              //fontWeight: FontWeight.bold
+            ),
+          ),
+          Text(
+            item.rgb[1].toString(),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+              //fontWeight: FontWeight.bold
+            ),
+          ),
+          Text(
+            item.rgb[2].toString(),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+              //fontWeight: FontWeight.bold
+            ),
+          ),
+        ],
+        /*
+        leading: AspectRatio(
+          aspectRatio: 3,
+          child: Container(
+            color: Color.fromRGBO(item.rgb[0], item.rgb[1], item.rgb[2], 1),
+          ),
+        ),
         title: Text(
           item.name, 
           style: TextStyle(
-            color: Color(0xffffffff),
+            color: Colors.black,
             fontSize: 22,
             fontWeight: FontWeight.bold
           ),
         ),
         subtitle: Text(
           item.hex
-          
         ),
+        */
       ),
     );
   }

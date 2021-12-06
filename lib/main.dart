@@ -34,7 +34,16 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MPR - Delta'),
+        title: const Text(
+          'MPR - Delta',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold
+            ),
+        ),
+        backgroundColor: Colors.green,
+        elevation: 2,
       ),
       body: Selector<Catalog, int?>(
         // Selector is a widget from package:provider. It allows us to listen
