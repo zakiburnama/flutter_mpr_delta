@@ -58,7 +58,13 @@ class LoadingItemTile extends StatelessWidget {
           aspectRatio: 1,
           child: Placeholder(),
         ),
-        title: Text('...', style: Theme.of(context).textTheme.headline6),
+        title: Text('...',
+          style: TextStyle(
+              color: Colors.black.withOpacity(0.8),
+              fontSize: 22,
+              fontWeight: FontWeight.bold
+          ),
+        ),
       ),
     );
   }

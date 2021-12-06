@@ -11,10 +11,10 @@ import 'page.dart';
 
 const catalogLength = 200;
 
-var dataRGB;
-var dataHex;
-var jsonRGB;
-var jsonHex;
+var dataColor;
+var dataCodeColor;
+var dataJsonColor;
+var dataJsonCodeColor;
 List<Object> list = [];
 
 /// This function emulates a REST API call. You can imagine replacing its
@@ -61,14 +61,14 @@ Future<void> getData() async {
   http.Response responseHex = await http.get(Uri.parse(url2));
   
   if (responseRGB.statusCode == 200) {
-    jsonRGB = responseRGB.body;
-    jsonHex = responseHex.body;
-    dataRGB = jsonDecode(jsonRGB);
-    dataHex = jsonDecode(jsonHex);
+    dataJsonColor = responseRGB.body;
+    dataJsonCodeColor = responseHex.body;
+    dataColor = jsonDecode(dataJsonColor);
+    dataCodeColor = jsonDecode(dataJsonCodeColor);
 
-    dataRGB.forEach((key, value) {
-      if(dataHex.containsKey(key)) {
-        list.add({'name': key, 'rgb': value, 'hex': dataHex[key].toString()});
+    dataColor.forEach((key, value) {
+      if(dataCodeColor.containsKey(key)) {
+        list.add({'name': key, 'rgb': value, 'hex': dataCodeColor[key].toString()});
       }
     });
   } else {
