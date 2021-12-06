@@ -25,7 +25,14 @@ class ItemTile extends StatelessWidget {
             color: Color.fromRGBO(item.rgb[0], item.rgb[1], item.rgb[2], 1),
           ),
         ),
-        title: Text(item.name, style: Theme.of(context).textTheme.headline6),
+        title: Text(
+          item.name, 
+          style: TextStyle(
+            color: Colors.black.withOpacity(0.8),
+            fontSize: 22,
+            fontWeight: FontWeight.bold
+          ),
+        ),
         onTap: () {
           Navigator.push(
             context,

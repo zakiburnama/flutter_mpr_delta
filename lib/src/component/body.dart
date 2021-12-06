@@ -11,17 +11,22 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //return SingleChildScrollView();
+    
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
-        leading: AspectRatio(
-          aspectRatio: 1,
-          child: Container(
-            color: Color.fromRGBO(item.rgb[0], item.rgb[1], item.rgb[2], 1),
+        title: Text(
+          item.name, 
+          style: TextStyle(
+            color: Color(0xffffffff),
+            fontSize: 22,
+            fontWeight: FontWeight.bold
           ),
         ),
-        title: Text(item.name, style: Theme.of(context).textTheme.headline6),
-        subtitle: Text(item.hex),
+        subtitle: Text(
+          item.hex
+          
+        ),
       ),
     );
   }
