@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'src/catalog.dart';
 import 'src/item_tile.dart';
 
@@ -20,6 +19,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<Catalog>(
       create: (context) => Catalog(),
       child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'MPR - Delta',
         home: MyHomePage(),
       ),

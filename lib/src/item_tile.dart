@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-
 import 'api/item.dart';
 import 'detail.dart';
 
@@ -12,7 +11,7 @@ import 'detail.dart';
 class ItemTile extends StatelessWidget {
   final Item item;
 
-  const ItemTile({required this.item, Key? key}) : super(key: key);
+  const ItemTile({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +60,7 @@ class LoadingItemTile extends StatelessWidget {
         title: Text('...',
           style: TextStyle(
               color: Colors.black.withOpacity(0.8),
-              fontSize: 22,
+              fontSize: 24,
               fontWeight: FontWeight.bold
             ),
         ),
